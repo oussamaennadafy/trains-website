@@ -63,7 +63,7 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
                 <?php
                 if(isset($_POST['complete']))
                 {
-                    if(empty($_POST['name']))
+                    if(empty($_POST['name']) && !empty($_SESSION["depart"]))
                     {
                       echo "<p class='text-danger pt-2'>name is required</p>";
                     }
@@ -78,7 +78,7 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
                 <?php
                 if(isset($_POST['complete']))
                 {
-                    if(empty($_POST['email']))
+                    if(empty($_POST['email']) && !empty($_SESSION["depart"]))
                     {
                       echo "<p class='text-danger pt-2'>email is required</p>";
                     }
