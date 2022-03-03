@@ -5,8 +5,6 @@
       if(isset($_SESSION['user'])) {
       ?>
       <div class='d-flex'>
-        <!-- <p class='text-light my-auto mx-5'>hi, <?php echo $_SESSION['user']; ?></p> -->
-        <!-- <<img style='width:40px; height:40px;' class='' src="../img/user.png" alt="profil"> -->
         <a href="#" class="nav-link link-secondary">my profil</a>
         <a href="#" class="nav-link link-secondary">my trips</a>
         <a href="http://localhost/projetmvc/user/logout" class="nav-link link-secondary">log out</a>

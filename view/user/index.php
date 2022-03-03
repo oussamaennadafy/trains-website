@@ -56,7 +56,7 @@
             <?php
             if(isset($_POST['submit']))
             {
-            if(empty($_POST['departureStationTripSearch']) && empty($_POST['arrivalStationTripSearch']))
+            if(empty($_POST['departureStationTripSearch']) || empty($_POST['arrivalStationTripSearch']))
             {
               echo"<p class='pt-3 mb-0 text-danger'>type the destination first</p>";
             }

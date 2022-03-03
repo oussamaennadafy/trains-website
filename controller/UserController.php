@@ -38,6 +38,7 @@ class UserController
 	{
 		session_start();
 		unset($_SESSION['user']);
+		unset($_SESSION['email']);
 		header('Location: http://localhost/projetmvc/user/index');
 	}
 
@@ -62,6 +63,7 @@ class UserController
 					if($emailSearch == $user['email'] && $passwordSearch == $user['password'])
 					{
 						$_SESSION['user'] = $user['name'];
+						$_SESSION['email'] = $user['email'];
 						unset($_SESSION['signUp']);
 						header("Location: http://localhost/projetmvc/user/index");
 					} else

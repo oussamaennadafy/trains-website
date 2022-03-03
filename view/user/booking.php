@@ -48,7 +48,7 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
           </tr>
         </table>
         <?php } else { ?>
-          <p class='text-center display-6 text-danger'>select a trip first</p>
+          <a class='text-center d-block display-6 text-danger text-decoration-none' href="http://localhost/projetmvc/user">select a trip first</a>
           <?php } ?>
       </section>
       <section style="min-height: calc(100vh - 56px - 56px); class="mb-5">
@@ -59,7 +59,9 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
           <div class="col">
             <div class="form-outline">
 								<label class="form-label">name <span class='text-danger'>*</span> </label>
-		            <input type="text" name="name" class="form-control">
+		            <input type="text" name="name" class="form-control" value='<?php if(isset($_SESSION['user'])) {
+                  echo $_SESSION['user'];
+                } ?>'>
                 <?php
                 if(isset($_POST['complete']))
                 {
@@ -74,7 +76,9 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
             <div class="col">
               <div class="form-outline">
                 <label class="form-label">email <span class='text-danger'>*</span> </label>
-                <input type="text" name="email" class="form-control">
+                <input type="text" name="email" class="form-control" value='<?php if(isset($_SESSION['email'])) {
+                  echo $_SESSION['email'];
+                } ?>'>
                 <?php
                 if(isset($_POST['complete']))
                 {
