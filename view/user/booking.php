@@ -38,7 +38,7 @@ if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']
   <!-- //////////////////////////////////// -->
   <section>
     <h1 class='text-center py-5'>your Trip</h1>
-    <?php if( isset($_POST['reserve']) || isset($_POST['complete']) ) { ?>
+    <?php if( isset($_POST['reserve']) || isset($_POST['complete']) && isset($_SESSION["depart"])) { ?>
       <table class='table rounded table-success mx-auto w-75'>
         <tr style='border:transparent;'>
             <td style='border-radius:5px 0 0 5px;' class='p-4'> from : <?php echo  $_SESSION["depart"] ?></td>

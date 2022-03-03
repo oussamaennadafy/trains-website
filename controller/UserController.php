@@ -19,6 +19,10 @@ class UserController
 		{
 			unset($_SESSION['signUp']);
 		}
+	    unset($_SESSION["depart"]);
+	    unset($_SESSION["arrival"]);
+	    unset($_SESSION["date"]);
+	    unset($_SESSION["price"]);
 		$Trips=Trip::select();
 		require_once __DIR__."/../view/user/index.php";
 	}
