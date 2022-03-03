@@ -7,6 +7,7 @@
     <title>create trip</title>
   </head>
   <body>
+    
 	
 	<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
     <div class="container-xxl">
