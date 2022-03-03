@@ -1,28 +1,21 @@
-<!-- pokos -->
-
 <?php
-
-
-  echo $depart = $_POST['departureStationTrip'];
-  echo $arrival = $_POST['arrivalStationTrip'];
-  echo $date = $_POST['dateTrip'];
-  echo $price = $_POST['priceTrip'];
-
-
-
-
-
-
-if(isset($_POST['complete']))
+if(isset($_POST['reserve']))
 {
-  if(!empty($_POST['name']) || !empty($_POST['email']))
-  {
-    echo $_POST['name'];
-    echo $_POST['email'];
-    echo $_POST['myComfort'];
-  }
-} 
-
+  $_SESSION["depart"] = $_POST['departureStationTrip'];
+  $_SESSION["arrival"] = $_POST['arrivalStationTrip'];
+  $_SESSION["date"] = $_POST['dateTrip'];
+  $_SESSION["price"] = $_POST['priceTrip'];
+}
+if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']) && !empty($_SESSION["depart"]))
+{
+  echo $_POST['name']."</br>";
+  echo $_POST['email']."</br>";
+  echo $_POST['myComfort']."</br>";
+  echo $_SESSION["depart"]."</br>";
+  echo $_SESSION["arrival"]."</br>";
+  echo $_SESSION["date"]."</br>";
+  echo $_SESSION["price"]."</br>";
+}
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -46,23 +39,20 @@ if(isset($_POST['complete']))
   <section>
     <h1 class='text-center py-5'>your Trip</h1>
     <?php if( isset($_POST['reserve']) || isset($_POST['complete']) ) { ?>
-      <form action='http://localhost/projetmvc/user/booking' method='POST'>
-        <table class='table rounded table-success mx-auto w-75'>
-          <tr style='border:transparent;'>
-            <input type='hidden' name='departureStationTrip' value="<?php $_POST['departureStationTrip'] ?>">
-            <input type='hidden' name='arrivalStationTrip' value="<?php  $_POST['arrivalStationTrip'] ?>">
-            <input type='hidden' name='dateTrip' value="<?php $_POST['dateTrip']?>">
-            <input type='hidden' name='priceTrip' value="<?php $_POST['priceTrip']?>">
-
-            <td style='border-radius:5px 0 0 5px;' class='p-4'> from : <?php echo  $depart ?></td>
-            <td style='' class='p-4'> to : <?php echo $arrival ?> </td>
-            <td style='' class='p-4'> date of trip : <?php echo $date  ?></td>
-            <td style='border-radius:0 5px 5px 0;' class='p-4'> price of trip : <?php echo $price ?> dh</td>
+      <table class='table rounded table-success mx-auto w-75'>
+        <tr style='border:transparent;'>
+            <td style='border-radius:5px 0 0 5px;' class='p-4'> from : <?php echo  $_SESSION["depart"] ?></td>
+            <td style='' class='p-4'> to : <?php echo $_SESSION["arrival"] ?> </td>
+            <td style='' class='p-4'> date of trip : <?php echo $_SESSION["date"]  ?></td>
+            <td style='border-radius:0 5px 5px 0;' class='p-4'> price of trip : <?php echo $_SESSION["price"] ?> dh</td>
           </tr>
         </table>
-        <?php } ?>
+        <?php } else { ?>
+          <p class='text-center display-6 text-danger'>select a trip first</p>
+          <?php } ?>
       </section>
       <section style="min-height: calc(100vh - 56px - 56px); class="mb-5">
+      <form action='http://localhost/projetmvc/user/booking' method='POST'>
       <h4 class="my-5 text-center"><strong>Finish Trip</strong></h4>
       <div class="w-50 mx-auto">
         <div class="row mb-4">
