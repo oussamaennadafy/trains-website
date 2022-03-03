@@ -1,9 +1,10 @@
 <?php
 
-$depart = $_POST['departureStationTrip'];
-$arrival = $_POST['arrivalStationTrip'];
-$date = $_POST['dateTrip'];
-$price = $_POST['priceTrip'];
+
+  echo $depart = $_POST['departureStationTrip'];
+  echo $arrival = $_POST['arrivalStationTrip'];
+  echo $date = $_POST['dateTrip'];
+  echo $price = $_POST['priceTrip'];
 
 
 
@@ -12,7 +13,7 @@ $price = $_POST['priceTrip'];
 
 if(isset($_POST['complete']))
 {
-  if(!empty($_POST['name']) && !empty($_POST['email']))
+  if(!empty($_POST['name']) || !empty($_POST['email']))
   {
     echo $_POST['name'];
     echo $_POST['email'];
@@ -42,7 +43,7 @@ if(isset($_POST['complete']))
   <!-- //////////////////////////////////// -->
   <section>
     <h1 class='text-center py-5'>your Trip</h1>
-    <?php if(isset($_POST['reserve']) || isset($_POST['complete'])) { ?>
+    <?php if( isset($_POST['reserve']) || isset($_POST['complete']) ) { ?>
       <form action='http://localhost/projetmvc/user/booking' method='POST'>
         <table class='table rounded table-success mx-auto w-75'>
           <tr style='border:transparent;'>
@@ -51,7 +52,7 @@ if(isset($_POST['complete']))
             <input type='hidden' name='dateTrip' value="<?php $_POST['dateTrip']?>">
             <input type='hidden' name='priceTrip' value="<?php $_POST['priceTrip']?>">
 
-            <td style='border-radius:5px 0 0 5px;' class='p-4'> from : <?php echo  $depart?></td>
+            <td style='border-radius:5px 0 0 5px;' class='p-4'> from : <?php echo  $depart ?></td>
             <td style='' class='p-4'> to : <?php echo $arrival ?> </td>
             <td style='' class='p-4'> date of trip : <?php echo $date  ?></td>
             <td style='border-radius:0 5px 5px 0;' class='p-4'> price of trip : <?php echo $price ?> dh</td>
@@ -72,7 +73,7 @@ if(isset($_POST['complete']))
                 {
                     if(empty($_POST['name']))
                     {
-                      echo "<p class='text-danger'>name is required</p>";
+                      echo "<p class='text-danger pt-2'>name is required</p>";
                     }
                 }
                 ?>
@@ -87,7 +88,7 @@ if(isset($_POST['complete']))
                 {
                     if(empty($_POST['email']))
                     {
-                      echo "<p class='text-danger'>email is required</p>";
+                      echo "<p class='text-danger pt-2'>email is required</p>";
                     }
                 }
                 ?>
