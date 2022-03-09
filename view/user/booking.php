@@ -8,13 +8,8 @@ if(isset($_POST['reserve']))
 }
 if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']) && !empty($_SESSION["depart"]))
 {
-  echo $_POST['name']."</br>";
-  echo $_POST['email']."</br>";
-  echo $_POST['myComfort']."</br>";
-  echo $_SESSION["depart"]."</br>";
-  echo $_SESSION["arrival"]."</br>";
-  echo $_SESSION["date"]."</br>";
-  echo $_SESSION["price"]."</br>";
+  // echo $_POST['name']."</br>";
+  // echo $_POST['email']."</br>";
 }
 ?>
 <!DOCTYPE html>

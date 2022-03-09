@@ -88,3 +88,39 @@ class User
 	}
 
 }
+
+class ticket
+{
+	
+	private $table="tickets";
+	private $dateTrip;
+	private $departureStationTrip;
+	private $arrivalStationTrip;
+	private $priceTrip;
+
+	function __construct($dateTrip,$departureStationTrip,$arrivalStationTrip,$priceTrip)
+	{
+		$this->dateTrip=$dateTrip;
+		$this->departureStationTrip=$departureStationTrip;
+		$this->arrivalStationTrip=$arrivalStationTrip;
+		$this->priceTrip=$priceTrip;
+	}
+
+	
+	public static function insert()
+	{
+		$table = 'tickets';
+		$columns = ['dateTrip','departureStationTrip','arrivalStationTrip','priceTrip','myComfort'];
+		$values = [$_SESSION["date"],$_SESSION["depart"],$_SESSION["arrival"],$_SESSION["price"],$_POST['myComfort']];
+
+		$ctn = new Connection();
+		return $ctn->insert($table,$columns,$values);
+	}
+
+	public static function select()
+	{
+		$ctn=new Connection();
+		return $ctn->selectAll("tickets");
+	}
+
+}

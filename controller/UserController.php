@@ -12,6 +12,13 @@ class UserController
 		
 	}
 
+	public function myTrips()
+	{
+    session_start();
+		$Trips=Trip::select();
+		require_once __DIR__."/../view/user/myTrips.php";
+	}
+
 	public function index()
 	{
     session_start();
@@ -31,6 +38,21 @@ class UserController
 	{
     session_start();
 		$Trips=Trip::select();
+		
+		if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']) && !empty($_SESSION["depart"]))
+		{
+			$tickets=ticket::insert();
+
+			// $message = "Line 1\r\nLine 2\r\nLine 3";
+
+			// $message = wordwrap($message, 70, "\r\n");
+
+			// mail('oussama.ennadafy@gmail.com', 'weego', $message);
+			header('Location: http://localhost/projetmvc/user');
+			$_SESSION['completeReservation'] = true;
+		}
+
+
 		require_once __DIR__."/../view/user/booking.php";
 	}
 

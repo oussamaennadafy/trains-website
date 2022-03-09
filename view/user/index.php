@@ -34,9 +34,24 @@
       }
     </style>
   </head>
-  <body>
+  <body style='overflow-x:hidden;'>
     <!-- ///////include header/////// -->
   <?php include 'header.php'; ?>
+  <!-- //////////////////////////////////// -->
+  <?php if(isset($_SESSION['completeReservation'])){ ?>
+        <div style='background-image: linear-gradient(to right bottom, #7ed56f, #28b485);border-radius:4px;left: 50%;
+    transform: translate(-50%, 0);
+    z-index: 1;transition: All 300ms;' class='Successful-reserved position-absolute mx-auto mt-5 w-50 p-4'>
+          <div>
+            <div class='mx-3 d-flex mx-auto justify-content-center my-2'>
+            <h2 class='text-light px-4'>Successful reserved</h2>
+              <svg style='width:40px;height:40px;' xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class=" bi bi-check-lg" viewBox="0 0 16 16">
+                <path class='text-light w-100 h-100' d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+               </svg>
+              </div>
+          </div>
+        </div>
+      <?php } ?>
   <!-- //////////////////////////////////// -->
   <section class="w-100 hero d-flex justify-content-between align-items-center">
    <form class='w-50 p-5 text-light d-flex justify-content-center flex-column' action='http://localhost/projetmvc/user/index' method='POST'>
@@ -142,5 +157,19 @@ if(isset($_POST['submit']))
     © 2023-2026, weego.com, Inc. or its affiliates
     </div>
   </footer>
+  <script>
+    const myTimeout = setTimeout(moveAndDisappear, 900);
+
+    function moveAndDisappear() {
+      document.querySelector(".Successful-reserved").style.opacity = '0';
+      document.querySelector(".Successful-reserved").style.transform = "translate(5%,0)";
+    }
+  </script>
 </body>
 </html>
+<?php
+if(isset($_SESSION['completeReservation']))
+{
+  unset($_SESSION['completeReservation']);
+}
+?>
