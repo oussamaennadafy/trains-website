@@ -54,12 +54,24 @@ class Connection
 		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC);
 	}
+
+
 	public function selectOne($table,$id)
 	{
 		$query=$this->conn->prepare("SELECT * FROM `$table` where id=$id");
 		$query->execute();
 		return $query->fetchAll(PDO::FETCH_ASSOC)[0];
 	}
+
+
+	// public function selectMyTrips($table,$ids)
+	// {		
+	// 	$query=$this->conn->prepare("SELECT * FROM `$table` where idUser=$ids");
+	// 	$query->execute();
+	// 	return $query->fetchAll(PDO::FETCH_ASSOC)[0];
+	// }
+
+
 	public function update($table,$tableCln,$tableVal,$id)
 	{
 		$names="";
@@ -76,6 +88,26 @@ class Connection
 		$query=$this->conn->prepare($str);
 		$query->execute();
 	}
+/////////////////////////////////////
+
+	public function updateAvailableSeats($table,$newValue,$id)
+	{
+		$str="UPDATE $table SET `AvailableSeatsTrip` = $newValue WHERE id=$id";
+		$query=$this->conn->prepare($str);
+		$query->execute();
+	}
+
+	/////////////////////////////
+/////////////////////////////////////
+
+	public function cancelTicket($id)
+	{
+		$str="UPDATE `tickets` SET `status` = 'notActive' WHERE id=$id";
+		$query=$this->conn->prepare($str);
+		$query->execute();
+	}
+
+	/////////////////////////////
 	public function delete($table,$id)
 	{
 		$query=$this->conn->prepare("DELETE FROM `$table` WHERE id=$id");

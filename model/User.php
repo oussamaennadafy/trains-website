@@ -30,6 +30,15 @@ class Trip
 		return $ctn->selectAll("Trips");
 	}
 
+
+	public static function updateAvailableSeats($newValue,$id)
+	{
+		$ctn=new Connection();
+		return $ctn->updateAvailableSeats("Trips",$newValue,$id);
+	}
+
+	
+
 }
 
 class Admin
@@ -110,6 +119,17 @@ class ticket
 	public static function insert()
 	{
 		$table = 'tickets';
+		$columns = ['dateTrip','departureStationTrip','arrivalStationTrip','priceTrip','myComfort','idUser'];
+		$values = [$_SESSION["date"],$_SESSION["depart"],$_SESSION["arrival"],$_SESSION["price"],$_POST['myComfort'],$_SESSION['userId']];
+
+		$ctn = new Connection();
+		return $ctn->insert($table,$columns,$values);
+	}
+
+
+	public static function insertGuest()
+	{
+		$table = 'tickets';
 		$columns = ['dateTrip','departureStationTrip','arrivalStationTrip','priceTrip','myComfort'];
 		$values = [$_SESSION["date"],$_SESSION["depart"],$_SESSION["arrival"],$_SESSION["price"],$_POST['myComfort']];
 
@@ -122,5 +142,12 @@ class ticket
 		$ctn=new Connection();
 		return $ctn->selectAll("tickets");
 	}
+
+	public static function cancel()
+	{
+		$ctn=new Connection();
+		return $ctn->cancelTicket($_POST['idTicket']);
+	}
+
 
 }

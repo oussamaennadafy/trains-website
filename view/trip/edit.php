@@ -43,7 +43,7 @@
               <!-- Email input -->
               <div class="form-outline mb-4">
 							<label class="form-label">date Trip</label>
-							<input type="text" name="dateTrip" class="form-control" value="<?=$Trip['dateTrip']?>">
+							<input type="datetime-local" name="dateTrip" class="form-control" value="<?=$Trip['dateTrip']?>">
               </div>
 
               <!-- Password input -->

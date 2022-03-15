@@ -41,7 +41,7 @@
 
               <div class="form-outline py-3">
 								<label class="form-label pb-2">email address</label>
-		            <input type="email" name="emailSearch" class="form-control">
+		            <input name="emailSearch" class="form-control">
               </div>
               <div class="form-outline py-3">
 						   <label class="form-label pb-2">password</label>

@@ -9,27 +9,56 @@ class UserController
 	
 	public function __construct()
 	{
-		
+
 	}
 
 	public function myTrips()
 	{
-    session_start();
-		$Trips=Trip::select();
+		session_start();
+		$dateNow = date('Y-m-d H:i');
+		if(isset($_SESSION['user']))
+		{
+			$tickets=ticket::select();
+			if(isset($_POST['cancel']))
+			{
+				foreach($tickets as $ticket)
+				{
+					if($ticket['idUser'] == $_SESSION['userId']) 
+					{
+						$cancelTickets=ticket::cancel();
+						$tickets=ticket::select();
+					}
+				}
+				
+			}
+		}
 		require_once __DIR__."/../view/user/myTrips.php";
 	}
 
 	public function index()
 	{
     session_start();
+		////////////////////////////////////////
+		// $dateNow = explode(' ',date('Y-m-d H:i'));
+		// $date = explode('-',$dateNow[0]);
+		// $time = explode(':',$dateNow[1]);
+		// $yearNow = $date[0];
+		// $monthNow = $date[1];
+		// $dayNow = $date[2];
+		// $houreNow = $time[0];
+		// $minuteNow = $time[1];
+		// $dateNowTwo = date("$yearNow-$monthNow-$dayNow $houreNow:$minuteNow");
+		////////////////////////////////////////
 		if(isset($_SESSION['signUp']))
 		{
 			unset($_SESSION['signUp']);
 		}
+	    unset($_SESSION["id"]);
 	    unset($_SESSION["depart"]);
 	    unset($_SESSION["arrival"]);
 	    unset($_SESSION["date"]);
 	    unset($_SESSION["price"]);
+	    unset($_SESSION["AvailableSeats"]);
 		$Trips=Trip::select();
 		require_once __DIR__."/../view/user/index.php";
 	}
@@ -38,18 +67,34 @@ class UserController
 	{
     session_start();
 		$Trips=Trip::select();
-		
+
+		if(isset($_POST['reserve']))
+		{
+			$_SESSION["id"] = $_POST['id'];
+			$_SESSION["depart"] = $_POST['departureStationTrip'];
+			$_SESSION["arrival"] = $_POST['arrivalStationTrip'];
+			$_SESSION["date"] = $_POST['dateTrip'];
+			$_SESSION["price"] = $_POST['priceTrip'];
+			$_SESSION["AvailableSeats"] = $_POST['AvailableSeatsTrip'];
+		}
 		if(isset($_POST['complete']) && !empty($_POST['name']) && !empty($_POST['email']) && !empty($_SESSION["depart"]))
 		{
-			$tickets=ticket::insert();
+			if(isset($_SESSION['userId']))
+			{
+				$tickets=ticket::insert();
+			} else {
+				$tickets=ticket::insertGuest();
+			}
+			$_SESSION["AvailableSeats"] -= 1;
+			echo $_SESSION["AvailableSeats"];
+			echo $_SESSION["id"];
+			$Trips=Trip::updateAvailableSeats($_SESSION["AvailableSeats"],$_SESSION["id"]);
 
-			// $message = "Line 1\r\nLine 2\r\nLine 3";
-
-			// $message = wordwrap($message, 70, "\r\n");
-
-			// mail('oussama.ennadafy@gmail.com', 'weego', $message);
-			header('Location: http://localhost/projetmvc/user');
+			// exit();
+			// echo $_POST['name']."</br>";
+			// echo $_POST['email']."</br>";
 			$_SESSION['completeReservation'] = true;
+			header('Location: http://localhost/projetmvc/user');
 		}
 
 
@@ -61,6 +106,7 @@ class UserController
 		session_start();
 		unset($_SESSION['user']);
 		unset($_SESSION['email']);
+		unset($_SESSION['userId']);
 		header('Location: http://localhost/projetmvc/user/index');
 	}
 
@@ -86,6 +132,8 @@ class UserController
 					{
 						$_SESSION['user'] = $user['name'];
 						$_SESSION['email'] = $user['email'];
+						$_SESSION['userId'] = $user['id'];
+						
 						unset($_SESSION['signUp']);
 						header("Location: http://localhost/projetmvc/user/index");
 					} else

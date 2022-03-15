@@ -93,51 +93,60 @@
 <?php
 
 $Found = false;
-$currentTime = date('Y-m-d H:i:s');
+$dateNow = date('Y-m-d H:i');
 
 if(isset($_POST['submit']))
 {
   if(!empty($_POST['departureStationTripSearch']) && !empty($_POST['arrivalStationTripSearch']))
+  {
+    $departureSearch = $_POST['departureStationTripSearch'];
+    $arrivalSearch = $_POST['arrivalStationTripSearch'];
+    
+    foreach($Trips as $Trip)
     {
-      $departureSearch = $_POST['departureStationTripSearch'];
-      $arrivalSearch = $_POST['arrivalStationTripSearch'];
-
-      foreach($Trips as $Trip)
+      if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && $Trip['AvailableSeatsTrip'] > 0)
       {
-        if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && 
-        $Trip['dateTrip'] > $currentTime)
+        $dateTrip = str_replace("T"," ",$Trip['dateTrip']);
+        if($dateTrip >= $dateNow)
         {
           $Found = true;
         }
       }
-      
-      
-      if($Found == true)
+    }
+    
+    
+    
+    if($Found == true)
+    {
+      echo "<h2 class='display-5 pb-5'>available trips</h2>";
+    }
+    
+    foreach($Trips as $Trip)
+    {
+      if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && $Trip['AvailableSeatsTrip'] > 0)
       {
-        echo "<h2 class='display-5 pb-5'>available trips</h2>";
-      }
-
-      foreach($Trips as $Trip)
-      {
-      if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && 
-      $Trip['dateTrip'] > $currentTime)
-        {
-          echo "
-          <form action='http://localhost/projetmvc/user/booking' method='POST'>
-            <input type='hidden' name='departureStationTrip' value=".$Trip['departureStationTrip'].">
-            <input type='hidden' name='arrivalStationTrip' value=".$Trip['arrivalStationTrip'].">
-            <input type='hidden' name='dateTrip' value=".$Trip['dateTrip'].">
-            <input type='hidden' name='priceTrip' value=".$Trip['priceTrip'].">
-            <tr>
-              <td> from : ".$Trip['departureStationTrip']."</td>
-              <td> to : ".$Trip['arrivalStationTrip']. "</td>
-              <td> date of trip : ".$Trip['dateTrip']."</td>
-              <td> price of trip : ".$Trip['priceTrip']."dh"."</td>
-              <td> available seats : ".$Trip['AvailableSeatsTrip']."</td>
-              <td><input class='btn btn-success' type='submit' value='reserve' name='reserve'></td>
-            </tr>
-          </form>
-          ";
+          $dateTrip = str_replace("T"," ",$Trip['dateTrip']);
+          if($dateTrip >= $dateNow)
+          {
+            echo "
+            <form action='http://localhost/projetmvc/user/booking' method='POST'>
+              <input type='hidden' name='id' value=".$Trip['id'].">
+              <input type='hidden' name='departureStationTrip' value=".$Trip['departureStationTrip'].">
+              <input type='hidden' name='arrivalStationTrip' value=".$Trip['arrivalStationTrip'].">
+              <input type='hidden' name='dateTrip' value=".$Trip['dateTrip'].">
+              <input type='hidden' name='priceTrip' value=".$Trip['priceTrip'].">
+              <input type='hidden' name='AvailableSeatsTrip' value=".$Trip['AvailableSeatsTrip'].">
+              <tr>
+                <td> from : ".$Trip['departureStationTrip']."</td>
+                <td> to : ".$Trip['arrivalStationTrip']. "</td>
+                <td> date of trip : ".$Trip['dateTrip']."</td>
+                <td> price of trip : ".$Trip['priceTrip']."dh"."</td>
+                <td> available seats : ".$Trip['AvailableSeatsTrip']."</td>
+                <td><input class='btn btn-success' type='submit' value='reserve' name='reserve'></td>
+              </tr>
+            </form>
+            ";
+          }
         }
       }
       if($Found == false)

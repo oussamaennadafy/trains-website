@@ -29,7 +29,7 @@
               </div>
               <div class="form-outline py-3">
 								<label class="form-label pb-2">email address<span class='text-danger'> *</span></label>
-		            <input type="email" name="email" class="form-control">
+		            <input name="email" class="form-control">
               </div>
               <div class="form-outline py-3">
 						   <label class="form-label pb-2">password<span class='text-danger'> *</span></label>

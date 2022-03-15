@@ -7,7 +7,6 @@ require_once "Connection.php";
  */
 class Trip
 {
-	
 	private $table="Trips";
 	private $dateTrip;
 	private $departureStationTrip;
