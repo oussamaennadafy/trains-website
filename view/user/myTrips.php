@@ -30,40 +30,63 @@
   <?php } else { ?>
   <h1 class='display-5 text-center py-5'>my trips</h1>
   <?php }?>
-    <?php foreach($tickets as $ticket)
-			{
-				if($ticket['idUser'] == $_SESSION['userId']) { ?>
-        <?php $dateTrip = str_replace("T"," ",$ticket['dateTrip'])?>
-        <?php echo $dateTrip;?>
-        <?php $first_explode = explode(' ',$dateTrip);?>
-        <?php echo $first_explode[1];?>
-        <?php echo $houreTrip = intval($first_explode[1]);?>
-        <?php echo $beforeHoure = intval($first_explode[1]) - 1;?>
-        <?php echo $beforeHoure = intval($first_explode[1]) - 1;?>
-        <table class='table rounded table-success mx-auto'>
-        <tr class='d-flex justify-content-center' style='border:transparent;'>
-            <td style='border-radius:5px 0 0 5px;' class='p-4'>date : <?php echo  $ticket["dateTrip"]?></td>
-            <td class='p-4'>date : <?php echo intval($ticket["dateTrip"])?></td>
-            <td class='p-4'>from : <?php echo $ticket["departureStationTrip"]?> </td>
-            <td class='p-4'>to : <?php echo $ticket["arrivalStationTrip"]?></td>
-            <td class='p-4'>price : <?php echo $ticket["priceTrip"]?> dh</td>
-            <td class='p-4 d-flex gap-2'>comfort : <?php echo $ticket["myComfort"] ?></td>
-            <?php if($dateTrip < $dateNow) {  ?>
+
+  <?php foreach($tickets as $ticket) { ?>
+  <?php if($ticket['idUser'] == $_SESSION['userId']) {
+    
+    
+    $dateTrip = str_replace("T"," ",$ticket['dateTrip']);
+     $first_explode = explode(" ",$dateTrip);
+     $seconde_explode = explode('-',$first_explode[0]);
+     $third_explode = explode(':',$first_explode[1]);
+     $yearTrip = $seconde_explode[0];
+     $monthTrip = $seconde_explode[1];
+     $dayTrip = $seconde_explode[2];
+     $houreTrip = $third_explode[0];
+     $minuteTrip = $third_explode[1];
+    }
+    if($houreTrip == 0)
+    {
+      $houreTripPlus = 23;
+    } else {
+      $houreTripPlus = $houreTrip -1;
+    }
+    $dateTripPlus = date("$yearTrip-$monthTrip-$dayTrip $houreTripPlus:$minuteTrip");
+    
+    $expiredBtn = false;
+    
+    ?>
+  
+  <table class='table rounded table-success mx-auto'>
+    <tr class='d-flex justify-content-center' style='border:transparent;'>
+      <td style='border-radius:5px 0 0 5px;' class='p-4'>date : <?php echo  $ticket["dateTrip"]?></td>
+      <td class='p-4'>date : <?php echo intval($ticket["dateTrip"])?></td>
+      <td class='p-4'>from : <?php echo $ticket["departureStationTrip"]?> </td>
+      <td class='p-4'>to : <?php echo $ticket["arrivalStationTrip"]?></td>
+      <td class='p-4'>price : <?php echo $ticket["priceTrip"]?> dh</td>
+      <td class='p-4 d-flex gap-2'>comfort : <?php echo $ticket["myComfort"] ?></td>
+            <?php if($dateTrip <= $dateNow) { ?>
               <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><button style='pointer-events:none;' class='btn btn-secondary'>expired</button></td>
             <?php  } ?>
-            <?php if($ticket["status"] == 'active' && $dateTrip >= $dateNow) { ?>
+
+            <?php if($ticket["status"] == 'active' && $dateTripPlus <= $dateNow && $dateTrip > $dateNow) {  ?>
+              <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><button style='pointer-events:none;' class='btn btn-light'>Less than an hour</button></td>
+            <?php }?>
+
+            <?php if($ticket["status"] == 'active' && $dateTripPlus > $dateNow) { ?>
             <form action="http://localhost/projetmvc/user/myTrips" method='POST'>
               <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><input class='btn btn-danger' type='submit' value='cancel' name='cancel'></td>
               <input type="hidden" name="idTicket" value = <?php echo  $ticket["id"] ?>  >
             </form>
             <?php } ?>
-            <?php if($ticket["status"] == 'notActive' && $dateTrip >= $dateNow) { ?>
+
+            <?php if($ticket["status"] == 'notActive' && $dateTrip > $dateNow) { ?>
               <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><button style='pointer-events:none;' class='btn btn-warning'>canceled</button></td>
             <?php } ?>
-          </tr>
-        </table>
 
-    <?php } } ?>
+          </tr>
+        </table>  
+        <?php }?>
   </main>
   <footer class='mt-5'>
     <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">

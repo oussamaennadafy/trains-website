@@ -9,7 +9,7 @@ class TripController
 	
 	public function __construct()
 	{
-		
+
 	}
 
 
@@ -41,6 +41,39 @@ class TripController
 		session_start();
 		if(isset($_SESSION['admin']))
 		{
+			if(isset($_POST['save']))
+			{
+				if(!empty($_POST['departureStationTrip']) && !empty($_POST['arrivalStationTrip']))
+				{
+					if($_POST['priceTrip'] >= 0)
+					{
+						if($_POST['AvailableSeatsTrip'] >= 0)
+						{
+							$dateNow = date('Y-m-d H:i');
+							$dateTrip = str_replace("T"," ",$_POST['dateTrip']);
+							if($dateTrip >= $dateNow)
+							{
+								$date=$_POST['dateTrip'];
+								$departur=$_POST['departureStationTrip'];
+								$arrival=$_POST['arrivalStationTrip'];
+								$price=$_POST['priceTrip'];
+								$Seats=$_POST['AvailableSeatsTrip'];
+								$Trip=new Trip($date,$departur,$arrival,$price,$Seats);
+								$Trip->save();
+								header("Location: http://localhost/projetmvc/Trip/create");
+							} else {
+								$_SESSION['invalidDate'] = true;
+							}
+						} else {
+							$_SESSION['seatsInvalid'] = true;
+						}
+					} else {
+						$_SESSION['priceInvalid'] = true;
+					}
+				} else {
+					$_SESSION['emptyCity'] = true;
+				}
+			}
 			require_once __DIR__."/../view/Trip/create.php";
 		}else 
 		{
@@ -50,15 +83,45 @@ class TripController
 
 	public function save()
 	{
-		$date=$_POST['dateTrip'];
-		$departur=$_POST['departureStationTrip'];
-		$arrival=$_POST['arrivalStationTrip'];
-		$price=$_POST['priceTrip'];
-		$Seats=$_POST['AvailableSeatsTrip'];
-		$Trip=new Trip($date,$departur,$arrival,$price,$Seats);
-		$Trip->save();
-		header("Location: http://localhost/projetmvc/Trip/index");
-	}
+		if(isset($_POST['save']))
+		{
+			$emptyCity = false;
+			if(!empty($_POST['departureStationTrip']) && !empty($_POST['arrivalStationTrip']))
+			{
+				if($_POST['priceTrip'] >= 0)
+				{
+					if($_POST['AvailableSeatsTrip'] >= 0)
+					{
+						$dateNow = date('Y-m-d H:i');
+						$dateTrip = str_replace("T"," ",$_POST['dateTrip']);
+						if($dateTrip >= $dateNow)
+						{
+							$date=$_POST['dateTrip'];
+							$departur=$_POST['departureStationTrip'];
+							$arrival=$_POST['arrivalStationTrip'];
+							$price=$_POST['priceTrip'];
+							$Seats=$_POST['AvailableSeatsTrip'];
+							$Trip=new Trip($date,$departur,$arrival,$price,$Seats);
+							$Trip->save();
+							header("Location: http://localhost/projetmvc/Trip/index");
+						} else {
+							echo'invalid Date';
+							$invalidDate = true;
+						}
+					} else {
+						echo'Invalid seats';
+						$seatsInvalid = true;
+					}
+				} else {
+					echo'Invalid price';
+					$priceInvalid = true;
+				}
+			} else {
+				echo'empty city';
+				$emptyCity = true;
+			}
+		}
+	} 
 
 	public function edit($id)
 	{

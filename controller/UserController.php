@@ -16,6 +16,8 @@ class UserController
 	{
 		session_start();
 		$dateNow = date('Y-m-d H:i');
+
+		
 		if(isset($_SESSION['user']))
 		{
 			$tickets=ticket::select();
@@ -35,20 +37,11 @@ class UserController
 		require_once __DIR__."/../view/user/myTrips.php";
 	}
 
+
 	public function index()
 	{
     session_start();
-		////////////////////////////////////////
-		// $dateNow = explode(' ',date('Y-m-d H:i'));
-		// $date = explode('-',$dateNow[0]);
-		// $time = explode(':',$dateNow[1]);
-		// $yearNow = $date[0];
-		// $monthNow = $date[1];
-		// $dayNow = $date[2];
-		// $houreNow = $time[0];
-		// $minuteNow = $time[1];
-		// $dateNowTwo = date("$yearNow-$monthNow-$dayNow $houreNow:$minuteNow");
-		////////////////////////////////////////
+
 		if(isset($_SESSION['signUp']))
 		{
 			unset($_SESSION['signUp']);

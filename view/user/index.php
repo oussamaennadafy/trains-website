@@ -95,6 +95,7 @@
 $Found = false;
 $dateNow = date('Y-m-d H:i');
 
+
 if(isset($_POST['submit']))
 {
   if(!empty($_POST['departureStationTripSearch']) && !empty($_POST['arrivalStationTripSearch']))

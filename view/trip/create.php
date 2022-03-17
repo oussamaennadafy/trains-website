@@ -5,6 +5,38 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3" crossorigin="anonymous">
     <title>create trip</title>
+    <style>
+      @media (max-width: 500px) {
+        body {
+        font-size:12px;
+        }
+        .btn {
+          font-size: 12px;
+          padding:4px 8px;
+        }
+        .navbar-brand {
+          font-size:10px;
+        }
+        .form-outline {
+          width:100%;
+        }
+        .form {
+          display:flex;
+          align-items:center;
+          justify-content:center;
+        }
+        .special-Row {
+          width:100%;
+          display:flex;
+          flex-direction:column;
+          align-items:center;
+          justify-content:center;
+        }
+        .col {
+          padding:10px 0;
+        }
+      }
+    </style>
   </head>
   <body>
     
@@ -21,8 +53,8 @@
     <h4 class="my-5 text-center"><strong>Create Trip</strong></h4>
     <div class="d-flex justify-content-center" style="width:100%">
       <div class="col-md-6">
-        <form class='d-flex justify-content-center flex-column' action="http://localhost/projetmvc/Trip/save" method="POST">
-          <div class="row mb-4">
+        <form class='form d-flex justify-content-center flex-column' action="http://localhost/projetmvc/Trip/create" method="POST">
+          <div class="special-Row row mb-4">
             <div class="col">
               <div class="form-outline">
 								<label class="form-label">departure Station of Trip</label>
@@ -31,32 +63,48 @@
             </div>
             <div class="col">
               <div class="form-outline">
-						   <label class="form-label">arrival Station of Trip</label>
-		           <input type="text" name="arrivalStationTrip" class="form-control">
+                <label class="form-label">arrival Station of Trip</label>
+                <input type="text" name="arrivalStationTrip" class="form-control">
               </div>
             </div>
-           </div>
+          </div>
 
-              <!-- Email input -->
+          <?php if(isset($_SESSION['emptyCity'])) { ?>
+            <div><p class='text-danger text-center'>type the destination first</p></div>
+          <?php unset($_SESSION['emptyCity']); } ?>
+          
+              <!-- date input -->
               <div class="form-outline mb-4">
 							<label class="form-label">date Trip</label>
 							<input type="datetime-local" name="dateTrip" class="form-control">
               </div>
 
-              <!-- Password input -->
+          <?php if(isset($_SESSION['invalidDate'])) { ?>
+            <div><p class='text-danger text-center'>invalid date</p></div>
+          <?php unset($_SESSION['invalidDate']); } ?>
+
+              <!-- price input -->
               <div class="form-outline mb-4">
 								<label class="form-label">price of Trip</label>
 		            <input class="form-control" type="number" name="priceTrip">
               </div>
 
-              <!-- Password input -->
+          <?php if(isset($_SESSION['priceInvalid'])) { ?>
+            <div><p class='text-danger text-center'>invalid price</p></div>
+          <?php unset($_SESSION['priceInvalid']); } ?>
+
+              <!-- seats input -->
               <div class="form-outline mb-4">
 								 <label class="form-label">Available Seats Trip</label>
 		             <input class="form-control" type="number" name="AvailableSeatsTrip">
               </div>
+
+          <?php if(isset($_SESSION['seatsInvalid'])) { ?>
+            <div><p class='text-danger text-center'>invalid seats number</p></div>
+          <?php unset($_SESSION['seatsInvalid']); } ?>
 							
               <!-- Submit button -->
-              <button type="submit" class="btn btn-primary btn-block mb-5">
+              <button name='save' type="submit" class="btn btn-primary btn-block mb-5">
                 save
               </button>
            </form>
