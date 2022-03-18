@@ -15,7 +15,6 @@ class UserController
 	public function myTrips()
 	{
 		session_start();
-		$dateNow = date('Y-m-d H:i');
 
 		
 		if(isset($_SESSION['user']))
@@ -36,23 +35,55 @@ class UserController
 		}
 		require_once __DIR__."/../view/user/myTrips.php";
 	}
-
-
+	
+	
 	public function index()
 	{
-    session_start();
-
+		session_start();
 		if(isset($_SESSION['signUp']))
 		{
 			unset($_SESSION['signUp']);
 		}
-	    unset($_SESSION["id"]);
-	    unset($_SESSION["depart"]);
-	    unset($_SESSION["arrival"]);
-	    unset($_SESSION["date"]);
-	    unset($_SESSION["price"]);
-	    unset($_SESSION["AvailableSeats"]);
+		
+		
+		
 		$Trips=Trip::select();
+		$Found = false;
+		
+		if(isset($_POST['submit']))
+{
+
+		if(!empty($_POST['departureStationTripSearch']) && !empty($_POST['arrivalStationTripSearch']))
+  {
+			$departureSearch = $_POST['departureStationTripSearch'];
+			$arrivalSearch = $_POST['arrivalStationTripSearch'];
+			
+			
+			$dateNow = date('Y-m-d H:i');
+    foreach($Trips as $Trip)
+    {
+      if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && $Trip['AvailableSeatsTrip'] > 0)
+      {
+        $dateTrip = str_replace("T"," ",$Trip['dateTrip']);
+        if($dateTrip >= $dateNow)
+        {
+          $Found = true;
+        }
+      }
+    }
+
+		}
+	}
+
+
+
+
+	 unset($_SESSION["id"]);
+	 unset($_SESSION["depart"]);
+	 unset($_SESSION["arrival"]);
+	 unset($_SESSION["date"]);
+	 unset($_SESSION["price"]);
+	 unset($_SESSION["AvailableSeats"]);
 		require_once __DIR__."/../view/user/index.php";
 	}
 

@@ -10,7 +10,42 @@
    .not-found {
     width: 300px;
     border-radius: 250px;
-      }
+   }
+   @media (max-width:1100px) {
+     body {
+       font-size: 14px !important;
+     }
+   }
+   @media (max-width:1000px) {
+     tr {
+       display :flex;
+       justify-content:center;
+       align-items:center;
+       flex-direction: column;
+       width: 75% !important;
+       margin: 0 auto;
+     }
+      td {
+      border-radius: 0 !important;
+       width: 70%; 
+       text-align:center;
+     } 
+   }
+   @media (max-width:800px) {
+    td {
+       width: 80%; 
+     } 
+    }
+   @media (max-width:600px) {
+    td {
+       width: 90%; 
+     }
+    } 
+   @media (max-width:400px) {
+    td {
+       width: 100%; 
+     } 
+   }
   </style>
 </head>
 <body style='overflow-x:hidden;'>
@@ -23,7 +58,7 @@
     </div>
   </nav>  
   <!-- //////////////////////////////////// -->
-  <main style='min-height:calc(100vh - 112px); '>
+  <main style='min-height:calc(100vh - 112px);'>
   <?php if($tickets == false) { ?>
     <img class='img-fluid not-found d-block mx-auto mt-5' src='https://cdn.dribbble.com/users/2698098/screenshots/5957957/media/6a4be3f4baaafe31276133fa9de7c0f0.jpg' alt='not found'>
     <p class='mt-4 fs-2 text fw-bolder text-center'>You haven't book yet</p>
@@ -31,30 +66,32 @@
   <h1 class='display-5 text-center py-5'>my trips</h1>
   <?php }?>
 
-  <?php foreach($tickets as $ticket) { ?>
-  <?php if($ticket['idUser'] == $_SESSION['userId']) {
+  <?php foreach($tickets as $ticket) { 
+  if($ticket['idUser'] == $_SESSION['userId']) {
     
+    $dateNow = date('Y-m-d H:i');
     
     $dateTrip = str_replace("T"," ",$ticket['dateTrip']);
-     $first_explode = explode(" ",$dateTrip);
-     $seconde_explode = explode('-',$first_explode[0]);
-     $third_explode = explode(':',$first_explode[1]);
-     $yearTrip = $seconde_explode[0];
-     $monthTrip = $seconde_explode[1];
-     $dayTrip = $seconde_explode[2];
-     $houreTrip = $third_explode[0];
-     $minuteTrip = $third_explode[1];
-    }
-    if($houreTrip == 0)
-    {
-      $houreTripPlus = 23;
-    } else {
-      $houreTripPlus = $houreTrip -1;
-    }
-    $dateTripPlus = date("$yearTrip-$monthTrip-$dayTrip $houreTripPlus:$minuteTrip");
-    
+    $first_explode = explode(" ",$dateTrip);
+    $seconde_explode = explode('-',$first_explode[0]);
+    $third_explode = explode(':',$first_explode[1]);
+    $yearTrip = $seconde_explode[0];
+    $monthTrip = $seconde_explode[1];
+    $dayTrip = $seconde_explode[2];
+    $houreTrip = $third_explode[0];
+    $minuteTrip = $third_explode[1];
+  }
+  if($houreTrip == 0)
+  {
+    $houreTripPlus = 23;
+  } else {
+    $houreTripPlus = $houreTrip -1;
+  }
+
+     $dateTripPlus = date("$yearTrip-$monthTrip-$dayTrip $houreTripPlus:$minuteTrip");
     $expiredBtn = false;
-    
+  
+ 
     ?>
   
   <table class='table rounded table-success mx-auto'>
@@ -64,12 +101,12 @@
       <td class='p-4'>from : <?php echo $ticket["departureStationTrip"]?> </td>
       <td class='p-4'>to : <?php echo $ticket["arrivalStationTrip"]?></td>
       <td class='p-4'>price : <?php echo $ticket["priceTrip"]?> dh</td>
-      <td class='p-4 d-flex gap-2'>comfort : <?php echo $ticket["myComfort"] ?></td>
-            <?php if($dateTrip <= $dateNow) { ?>
+      <td class='p-4'>comfort : <?php echo $ticket["myComfort"] ?></td>
+            <?php if($dateTrip < $dateNow) { ?>
               <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><button style='pointer-events:none;' class='btn btn-secondary'>expired</button></td>
             <?php  } ?>
 
-            <?php if($ticket["status"] == 'active' && $dateTripPlus <= $dateNow && $dateTrip > $dateNow) {  ?>
+            <?php if($ticket["status"] == 'active' && $dateTripPlus < $dateNow && $dateTrip > $dateNow) {  ?>
               <td class='d-flex align-items-center justify-content-center px-4' style='border-radius:0 5px 5px 0;'><button style='pointer-events:none;' class='btn btn-light'>Less than an hour</button></td>
             <?php }?>
 

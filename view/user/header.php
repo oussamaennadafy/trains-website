@@ -5,7 +5,6 @@
       if(isset($_SESSION['user'])) {
       ?>
       <div class='d-flex'>
-        <a href="#" class="nav-link link-secondary">my profil</a>
         <a href="http://localhost/projetmvc/user/myTrips" class="nav-link link-secondary">my trips</a>
         <a href="http://localhost/projetmvc/user/logout" class="nav-link link-secondary">log out</a>
         </div>

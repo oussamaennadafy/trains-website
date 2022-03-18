@@ -70,7 +70,7 @@
           </div>
 
           <?php if(isset($_SESSION['emptyCity'])) { ?>
-            <div><p class='text-danger text-center'>type the destination first</p></div>
+            <div><p class='text-danger text-center m-0'>type the destination first</p></div>
           <?php unset($_SESSION['emptyCity']); } ?>
           
               <!-- date input -->
@@ -80,7 +80,7 @@
               </div>
 
           <?php if(isset($_SESSION['invalidDate'])) { ?>
-            <div><p class='text-danger text-center'>invalid date</p></div>
+            <div><p class='text-danger text-center m-0'>invalid date</p></div>
           <?php unset($_SESSION['invalidDate']); } ?>
 
               <!-- price input -->
@@ -90,7 +90,7 @@
               </div>
 
           <?php if(isset($_SESSION['priceInvalid'])) { ?>
-            <div><p class='text-danger text-center'>invalid price</p></div>
+            <div><p class='text-danger text-center m-0'>invalid price</p></div>
           <?php unset($_SESSION['priceInvalid']); } ?>
 
               <!-- seats input -->
@@ -100,7 +100,7 @@
               </div>
 
           <?php if(isset($_SESSION['seatsInvalid'])) { ?>
-            <div><p class='text-danger text-center'>invalid seats number</p></div>
+            <div><p class='text-danger text-center m-0'>invalid seats number</p></div>
           <?php unset($_SESSION['seatsInvalid']); } ?>
 							
               <!-- Submit button -->

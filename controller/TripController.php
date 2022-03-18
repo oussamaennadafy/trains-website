@@ -45,13 +45,13 @@ class TripController
 			{
 				if(!empty($_POST['departureStationTrip']) && !empty($_POST['arrivalStationTrip']))
 				{
-					if($_POST['priceTrip'] >= 0)
+					$dateNow = date('Y-m-d H:i');
+					$dateTrip = str_replace("T"," ",$_POST['dateTrip']);
+					if($dateTrip >= $dateNow)
 					{
-						if($_POST['AvailableSeatsTrip'] >= 0)
+						if($_POST['priceTrip'] >= 0)
 						{
-							$dateNow = date('Y-m-d H:i');
-							$dateTrip = str_replace("T"," ",$_POST['dateTrip']);
-							if($dateTrip >= $dateNow)
+							if($_POST['AvailableSeatsTrip'] >= 0)
 							{
 								$date=$_POST['dateTrip'];
 								$departur=$_POST['departureStationTrip'];
@@ -60,20 +60,57 @@ class TripController
 								$Seats=$_POST['AvailableSeatsTrip'];
 								$Trip=new Trip($date,$departur,$arrival,$price,$Seats);
 								$Trip->save();
-								header("Location: http://localhost/projetmvc/Trip/create");
+								header("Location: http://localhost/projetmvc/Trip/index");
 							} else {
-								$_SESSION['invalidDate'] = true;
+								$_SESSION['seatsInvalid'] = true;
 							}
 						} else {
-							$_SESSION['seatsInvalid'] = true;
+							$_SESSION['priceInvalid'] = true;
 						}
 					} else {
-						$_SESSION['priceInvalid'] = true;
+						$_SESSION['invalidDate'] = true;
 					}
 				} else {
 					$_SESSION['emptyCity'] = true;
 				}
 			}
+
+
+
+
+			// if(isset($_POST['save']))
+			// {
+			// 	if(!empty($_POST['departureStationTrip']) && !empty($_POST['arrivalStationTrip']))
+			// 	{
+			// 		if($_POST['priceTrip'] >= 0)
+			// 		{
+			// 			if($_POST['AvailableSeatsTrip'] >= 0)
+			// 			{
+			// 				$dateNow = date('Y-m-d H:i');
+			// 				$dateTrip = str_replace("T"," ",$_POST['dateTrip']);
+			// 				if($dateTrip >= $dateNow)
+			// 				{
+			// 					$date=$_POST['dateTrip'];
+			// 					$departur=$_POST['departureStationTrip'];
+			// 					$arrival=$_POST['arrivalStationTrip'];
+			// 					$price=$_POST['priceTrip'];
+			// 					$Seats=$_POST['AvailableSeatsTrip'];
+			// 					$Trip=new Trip($date,$departur,$arrival,$price,$Seats);
+			// 					$Trip->save();
+			// 					header("Location: http://localhost/projetmvc/Trip/create");
+			// 				} else {
+			// 					$_SESSION['invalidDate'] = true;
+			// 				}
+			// 			} else {
+			// 				$_SESSION['seatsInvalid'] = true;
+			// 			}
+			// 		} else {
+			// 			$_SESSION['priceInvalid'] = true;
+			// 		}
+			// 	} else {
+			// 		$_SESSION['emptyCity'] = true;
+			// 	}
+			// }
 			require_once __DIR__."/../view/Trip/create.php";
 		}else 
 		{

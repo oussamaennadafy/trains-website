@@ -32,10 +32,42 @@
       .footer {
         background-color: rgba(0, 0, 0, 0.2);
       }
+      @media (max-width:1000px) {
+        body {
+          font-size:14px;
+        }
+        .display-1 {
+          font-size:48px;
+        }
+        .row {
+          flex-direction: column;
+          gap:20px;
+        }
+        .first-form {
+          padding:30px !important;
+        }
+        tr {
+          display: flex;
+          flex-direction: column;
+          margin-bottom: 10px;
+        }
+      }
+      @media (max-width:650px) {
+      .hero {
+        display:flex;
+        flex-direction: column;
+      }
+      .clip-path {
+        display:none !important;
+      }
+      .first-form {
+        width: 90% !important;
+      }
+      }
     </style>
   </head>
   <body style='overflow-x:hidden;'>
-    <!-- ///////include header/////// -->
+    <!-- ///////include header/////////////// -->
   <?php include 'header.php'; ?>
   <!-- //////////////////////////////////// -->
   <?php if(isset($_SESSION['completeReservation'])){ ?>
@@ -54,7 +86,7 @@
       <?php } ?>
   <!-- //////////////////////////////////// -->
   <section class="w-100 hero d-flex justify-content-between align-items-center">
-   <form class='w-50 p-5 text-light d-flex justify-content-center flex-column' action='http://localhost/projetmvc/user/index' method='POST'>
+   <form class='first-form w-50 p-5 text-light d-flex justify-content-center flex-column' action='http://localhost/projetmvc/user/index' method='POST'>
           <div class="row mb-5">
             <div class="col">
               <div class="form-outline">
@@ -79,7 +111,7 @@
             ?>
            </div>
               <!-- Submit button -->
-              <button id='pokos' type='submit' name='submit' class="btn btn-primary btn-block mb-5">
+              <button type='submit' name='submit' class="btn btn-primary btn-block mb-5">
                 Search
                 </button>
            </form> 
@@ -92,31 +124,8 @@
 <table class="table table-striped rounded table-dark">
 <?php
 
-$Found = false;
-$dateNow = date('Y-m-d H:i');
-
-
 if(isset($_POST['submit']))
 {
-  if(!empty($_POST['departureStationTripSearch']) && !empty($_POST['arrivalStationTripSearch']))
-  {
-    $departureSearch = $_POST['departureStationTripSearch'];
-    $arrivalSearch = $_POST['arrivalStationTripSearch'];
-    
-    foreach($Trips as $Trip)
-    {
-      if($departureSearch == $Trip['departureStationTrip'] && $arrivalSearch == $Trip['arrivalStationTrip'] && $Trip['AvailableSeatsTrip'] > 0)
-      {
-        $dateTrip = str_replace("T"," ",$Trip['dateTrip']);
-        if($dateTrip >= $dateNow)
-        {
-          $Found = true;
-        }
-      }
-    }
-    
-    
-    
     if($Found == true)
     {
       echo "<h2 class='display-5 pb-5'>available trips</h2>";
@@ -156,7 +165,6 @@ if(isset($_POST['submit']))
         <p class='mt-4 fs-2 text fw-bolder'>no result found</p> ";
       }
     }
-}
 ?>
 
 </table>
